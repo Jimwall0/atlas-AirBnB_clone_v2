@@ -124,7 +124,7 @@ class HBNBCommand(cmd.Cmd):
         for key, value in kwargs:
             if isinstance(value, str):
                 for character in value:
-                    if character == "_":
+                    if character is "_":
                         character = " "
             elif isinstance(value, float):
                 continue

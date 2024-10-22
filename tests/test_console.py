@@ -5,6 +5,7 @@ Unittest for console
 import unittest
 from console import HBNBCommand
 
+
 class TestConsole(unittest.TestCase):
     """Test the console"""
 
@@ -12,5 +13,6 @@ class TestConsole(unittest.TestCase):
         """Test the create command"""
         pass
 
+
 if __name__ == "__main__":
-    unittest.main(i)
+    unittest.main()

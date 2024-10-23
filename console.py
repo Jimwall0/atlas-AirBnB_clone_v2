@@ -46,17 +46,13 @@ class HBNBCommand(cmd.Cmd):
         Example:
         create State name="California"
         """
-        args = shlex.split(arg)  # Split arguments, handling quotes correctly
         if len(args) == 0:
             print("** class name missing **")
             return
-        class_name = args[0]
-        if class_name not in HBNBCommand.classes:
+        if args[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
-            return          
-        new_instance = HBNBCommand.classes[class_name]()
-        for key, value in kwargs:
-            new_instance[key] = value
+            return
+        new_instance = HBNBCommand.classes[args[0]]()
         storage.save()
         print(new_instance.id)
 

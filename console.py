@@ -121,13 +121,10 @@ class HBNBCommand(cmd.Cmd):
             return
         elif class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
-            return
-        if kwargs is not None:
-            for key, value in kwargs:
-                if isinstance(value, str):
-                    for character in value:
-                        
-        new_instance = HBNBCommand.classes[class_name](**kwargs)
+            return          
+        new_instance = HBNBCommand.classes[class_name]()
+        for key, value in kwargs:
+            new_instance[key] = value
         storage.save()
         print(new_instance.id)
         storage.save()

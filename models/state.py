@@ -1,26 +1,20 @@
 #!/usr/bin/python3
-"""State class definition with SQLAlchemy support"""
+"""State module for the HBNB project."""
 
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
-import models
 
 class State(BaseModel, Base):
-    """State class that inherits from BaseModel and Base"""
+    """State class for handling state information."""
+
     __tablename__ = 'states'
-
-    # Name of the state (cannot be null)
     name = Column(String(128), nullable=False)
-
-    # Relationship to cities (for DBStorage)
-    cities = relationship("City", cascade="all, delete", backref="state")
+    cities = relationship("City", backref="state", cascade="all, delete")
 
     @property
     def cities(self):
-        """Getter for FileStorage: returns list of City instances linked to this State"""
-        city_list = []
-        for city in models.storage.all(City).values():
-            if city.state_id == self.id:
-                city_list.append(city)
-        return city_list
+        """Getter attribute cities that returns list of City instances with state_id equal to current State.id"""
+        from models import storage
+        from models.city import City
+        return [city for city in storage.all(City).values() if city.state_id == self.id]

@@ -2,7 +2,6 @@
 """ Console Module """
 
 import cmd
-import sys
 from models.base_model import BaseModel
 from models import storage
 from models.user import User
@@ -16,38 +15,54 @@ import shlex  # For splitting the line into arguments
 class HBNBCommand(cmd.Cmd):
     """Defines the command interpreter for AirBnB clone project"""
 
-    prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
+    prompt = '(hbnb) '
 
     classes = {
         'BaseModel': BaseModel, 'User': User, 'State': State,
         'City': City, 'Amenity': Amenity, 'Place': Place, 'Review': Review
     }
 
-    def do_quit(self, arg):
-        """Quit command to exit the program"""
-        exit()
-
-    def do_EOF(self, arg):
-        """EOF signal to exit the program"""
-        print()
-        exit()
-
-    def emptyline(self):
-        """Override default behavior to do nothing on empty line"""
-        pass
-
     def do_create(self, arg):
-        """Create an instance of a class"""
+        """Create an instance of a class with attributes"""
         args = shlex.split(arg)
         if not args:
             print("** class name missing **")
             return
-        if args[0] not in self.classes:
+        class_name = args[0]
+        if class_name not in self.classes:
             print("** class doesn't exist **")
             return
-        new_instance = self.classes[args[0]]()
-        print(new_instance.id)
+
+        # Parse key=value arguments
+        kwargs = {}
+        for param in args[1:]:
+            key, sep, value = param.partition("=")
+            if sep == "=":
+                if value.startswith('"') and value.endswith('"'):
+                    value = value[1:-1].replace('_', ' ').replace('\\"', '"')
+                elif '.' in value:
+                    try:
+                        value = float(value)
+                    except ValueError:
+                        continue
+                else:
+                    try:
+                        value = int(value)
+                    except ValueError:
+                        continue
+                kwargs[key] = value
+
+        # Check required attributes for State and City
+        if class_name == "State" and "name" not in kwargs:
+            print("** missing required attribute 'name' **")
+            return
+        if class_name == "City" and ("name" not in kwargs or "state_id" not in kwargs):
+            print("** missing required attributes 'state_id' and 'name' **")
+            return
+
+        new_instance = self.classes[class_name](**kwargs)
         new_instance.save()
+        print(new_instance.id)
 
     def do_show(self, arg):
         """Show an instance based on the class name and id"""

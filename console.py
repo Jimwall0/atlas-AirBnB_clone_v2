@@ -51,6 +51,7 @@ class HBNBCommand(cmd.Cmd):
             except:
                 continue
         new_instance = HBNBCommand.classes[args[0]](**kwarg)
+        storage.new(new_instance)
         storage.save()
         print(new_instance.id)
 

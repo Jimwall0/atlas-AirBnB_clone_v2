@@ -32,7 +32,7 @@ class BaseModel:
                 self.id = str(uuid.uuid4())
 
     def __str__(self):
-        return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
+        return f"[{self.__class__.__name__}] ({self.id}) {{'name': '{self.name}'}}"
 
     def save(self):
         """Save method for BaseModel."""

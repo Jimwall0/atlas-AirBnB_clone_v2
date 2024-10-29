@@ -4,6 +4,8 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from models.base_model import Base
+from models.state import State
+from models.city import City
 import os
 
 class DBStorage:
@@ -18,8 +20,12 @@ class DBStorage:
         password = os.getenv('HBNB_MYSQL_PWD')
         host = os.getenv('HBNB_MYSQL_HOST')
         db = os.getenv('HBNB_MYSQL_DB')
-        self.__engine = create_engine(f'mysql+mysqldb://{user}:{password}@{host}/{db}', pool_pre_ping=True)
+        self.__engine = create_engine(
+            f'mysql+mysqldb://{user}:{password}@{host}/{db}', 
+            pool_pre_ping=True
+        )
 
+        # Drop all tables if environment is 'test'
         if os.getenv('HBNB_ENV') == 'test':
             Base.metadata.drop_all(self.__engine)
 
@@ -29,6 +35,7 @@ class DBStorage:
         if cls:
             objs = self.__session.query(cls).all()
         else:
+            # Add other model classes as needed for querying all
             objs = self.__session.query(State).all() + self.__session.query(City).all()
         for obj in objs:
             key = f"{obj.__class__.__name__}.{obj.id}"
@@ -54,3 +61,7 @@ class DBStorage:
         session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
+
+    def close(self):
+        """Close the current scoped session."""
+        self.__session.remove()  # Optional for session cleanup

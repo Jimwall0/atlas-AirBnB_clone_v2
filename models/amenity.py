@@ -1,14 +1,19 @@
 #!/usr/bin/python3
-"""This module defines a class Amenity"""
+"""Amenity module for the HBNB project."""
+
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, Table, ForeignKey
+from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
-from models.place import place_amenity
 
 class Amenity(BaseModel, Base):
-    """This class defines an amenity"""
+    """Represents an Amenity for a place."""
+
     __tablename__ = 'amenities'
-
     name = Column(String(128), nullable=False)
-
-    place_amenities = relationship("Place", secondary=place_amenity, back_populates="amenities")
+    
+    # Relationship with Place using secondary table (place_amenity)
+    place_amenities = relationship(
+        "Place",
+        secondary="place_amenity",
+        viewonly=True
+    )

@@ -1,19 +1,13 @@
 #!/usr/bin/python3
-"""Amenity module for the HBNB project."""
-
+"""Amenity Module for HBNB project"""
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 
 class Amenity(BaseModel, Base):
-    """Represents an Amenity for a place."""
-
+    """Represents an amenity for a place"""
     __tablename__ = 'amenities'
     name = Column(String(128), nullable=False)
-    
-    # Relationship with Place using secondary table (place_amenity)
-    place_amenities = relationship(
-        "Place",
-        secondary="place_amenity",
-        viewonly=True
-    )
+
+    def some_method_requiring_place_amenity(self):
+        from models.place import place_amenity  # Import here to avoid circular dependency

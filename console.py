@@ -36,36 +36,29 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
 
-        # Improved parsing for key=value arguments
         kwargs = {}
         for param in args[1:]:
             key, sep, value = param.partition("=")
             if sep == "=":
-                # Handle string values wrapped in quotes
                 if value.startswith('"') and value.endswith('"'):
                     value = value[1:-1].replace('_', ' ').replace('\\"', '"')
-                # Handle integer values
-                elif value.isdigit():
-                    value = int(value)
-                # Handle float values
-                else:
+                elif '.' in value:
                     try:
                         value = float(value)
                     except ValueError:
-                        continue  # Skip invalid values
+                        continue
+                else:
+                    try:
+                        value = int(value)
+                    except ValueError:
+                        continue
                 kwargs[key] = value
 
-        print(f"Parsed kwargs: {kwargs}")  # Debug line to check parsed kwargs
-
-        # Check for required attributes
-        if class_name == "State" and "name" not in kwargs:
-            print("** missing required attribute 'name' **")
-            return
-        if class_name == "City" and ("name" not in kwargs or "state_id" not in kwargs):
-            print("** missing required attributes 'state_id' and 'name' **")
+        # Required attribute check for User
+        if class_name == "User" and ("email" not in kwargs or "password" not in kwargs):
+            print("** missing required attributes 'email' and 'password' **")
             return
 
-        # Create the instance with provided attributes
         new_instance = self.classes[class_name](**kwargs)
         new_instance.save()
         print(new_instance.id)

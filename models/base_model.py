@@ -31,6 +31,9 @@ class BaseModel:
             if 'id' not in kwargs:
                 self.id = str(uuid.uuid4())
 
+    def __str__(self):
+        return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
+
     def save(self):
         """Save method for BaseModel."""
         self.updated_at = datetime.utcnow()

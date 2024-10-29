@@ -65,3 +65,6 @@ class DBStorage:
     def close(self):
         """Close the current scoped session."""
         self.__session.remove()  # Optional for session cleanup
+
+    def __str__(self):
+        return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"

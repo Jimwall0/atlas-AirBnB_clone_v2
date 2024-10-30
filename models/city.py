@@ -11,7 +11,8 @@ class City(BaseModel, Base):
         super().__init__(*args, **kwargs)
         for key, value in kwargs.items():
             if key == "state_id":
-                self.id = value
+                self.state_id = value
+
     __tablename__ = 'cities'
     name = Column(String(128), nullable=False)
     state_id = Column(String(60), ForeignKey('states.id'), nullable=False)

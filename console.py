@@ -40,7 +40,7 @@ class HBNBCommand(cmd.Cmd):
         for parem in paremeters:
             try:
                 key, value = parem.split("=")
-                if value.startswith("\"") and value.endswith('"'):
+                if value.startswith("\"") and value.endswith('\"'):
                     value = value[1:-1].replace('_', ' ')
                     kwarg[key] = value
                 elif '.' in value:

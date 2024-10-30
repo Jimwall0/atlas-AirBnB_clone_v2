@@ -30,6 +30,11 @@ class BaseModel:
                     setattr(self, key, value)
             if 'id' not in kwargs:
                 self.id = str(uuid.uuid4())
+            if self.created_at is None:
+                self.created_at = datetime.utcnow()
+            if self.updated_at is None:
+                self.updated_at = datetime.utcnow()
+
 
     def __str__(self):
         return f"[{self.__class__.__name__}] ({self.id}) {{'name': '{self.name}'}}"

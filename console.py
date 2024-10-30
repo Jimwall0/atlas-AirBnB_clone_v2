@@ -41,7 +41,7 @@ class HBNBCommand(cmd.Cmd):
             try:
                 key, value = parem.split("=")
                 if value.startswith("\"") and value.endswith('"'):
-                    value = value[1:-1].replace('\"', '"').replace('_', ' ')
+                    value = value[1:-1].replace('_', ' ')
                     kwarg[key] = value
                 elif '.' in value:
                     kwarg[key] = float(value)

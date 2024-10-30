@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+
 """ Console Module """
 import cmd
 import shlex  # for splitting arguments
@@ -39,8 +40,6 @@ class HBNBCommand(cmd.Cmd):
         for parem in paremeters:
             try:
                 key, value = parem.split("=")
-                key = key.strip()
-                value = value.strip()
                 if value.startswith('"') and value.endswith('"'):
                     value = value[1:-1].replace('\\"', '"').replace('_', ' ')
                     kwarg[key] = value

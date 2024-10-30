@@ -8,6 +8,9 @@ from sqlalchemy.orm import relationship
 class State(BaseModel, Base):
     """State class for handling state information."""
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
     __tablename__ = 'states'
     name = Column(String(128), nullable=False)
     

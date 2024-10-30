@@ -37,7 +37,7 @@ class BaseModel:
 
 
     def __str__(self):
-        return f"[{self.__class__.__name__}] ({self.id}) {{'name': '{self.name}'}}"
+        return f"[{self.__class__.__name__}] ({self.id}) {{'name': '{self.__dict__}'}}"
 
     def save(self):
         """Save method for BaseModel."""

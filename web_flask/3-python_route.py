@@ -30,8 +30,13 @@ def index3(text):
     return "C %s" % text.replace("_", " ")
 
 
+@app.route("/python/", strict_slashes=False)
+def index4_1():
+    return "Python is cool"
+
+
 @app.route("/python/<text>", strict_slashes=False)
-def index4(text="is cool"):
+def index4_2(text="is_cool"):
     return "Python %s" % text.replace("_", " ")
 
 

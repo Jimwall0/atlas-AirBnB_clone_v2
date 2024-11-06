@@ -57,5 +57,8 @@ class FileStorage:
         if key in FileStorage.__objects:
             del FileStorage.__objects[key]
 
+    def close(self):
+        self.reload()
+
     def __str__(self):
         return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
